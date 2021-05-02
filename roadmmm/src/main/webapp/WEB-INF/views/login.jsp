@@ -4,9 +4,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>join</title>
+	<title>Login</title>
 	<style>
-		.join_wrap{
+		.login_wrap{
 			width: 100%;
 			
 			display: flex;
@@ -18,17 +18,15 @@
 </head>
 <body>
 	<%@ include file="common/header.jsp" %>
-	<div class="join_wrap">
+	<div class="login_wrap">
 		<div>
-			<h1>JoinPage</h1>
+			<h1>Login Page!</h1>
 		</div>
 		<div>
-			<form action="/joinprocess" method="POST">
+			<form action="loginprocess" method="POST">
 				아이디 : <input name="userid"/><br/>
-				비밀번호 : <input type="password" name="userpw"/><br/>
-				닉네임 : <input name="nickname"/><br/>
-				이메일 : <input name="email"/><br/>
-				<button>회원가입</button>
+				비밀번호 : <input name="userpw"/><br/>
+				<button>로그인</button>
 			</form>
 		</div>
 	</div>
