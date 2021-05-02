@@ -41,6 +41,7 @@
 		<div class="main_logo">
 			<h1><strong><a href="/">Road To Millio</a></strong></h1>
 		</div>
+		
 		<div class="nav_link">
 			<c:if test="${user == null}">
 				<a href="/"><button type="button" class="btn btn-outline-secondary">메인</button></a>&nbsp;
