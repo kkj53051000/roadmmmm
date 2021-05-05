@@ -12,7 +12,6 @@
 		<div>
 			<h1>This is Main page!</h1>
 		</div>
-		
 		<div>
 			<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
 			  <div class="carousel-inner">
