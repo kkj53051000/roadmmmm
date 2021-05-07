@@ -45,7 +45,8 @@ public class UserController {
 		userService.saveUser(joinForm);
 		
 		return "redirect:/";
-	}
+	} 
+	
 	
 	@PostMapping("/loginprocess")
 	public String login(LoginForm loginForm, HttpServletRequest request) {
