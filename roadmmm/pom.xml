@@ -64,12 +64,19 @@
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
+
 		
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
 		<dependency>
-		    <groupId>org.projectlombok</groupId>
-		    <artifactId>lombok</artifactId>
-		    <version>1.18.8</version>
-		    <scope>provided</scope>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-dependency-plugin</artifactId>
+		    <version>3.1.2</version>
+		</dependency>
+				
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		
 		
@@ -77,7 +84,7 @@
 
 	<build>
 		<plugins>
-		<!-- 
+		 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -90,11 +97,10 @@
 					</excludes>
 				</configuration>
 			</plugin>
-		 -->
+		 
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-resources-plugin</artifactId>
-			    <version>3.1.0</version>
 			</plugin>
 			
 			 <plugin>
@@ -106,6 +112,8 @@
             </configuration>
         </plugin>
 		</plugins>
+		
+		<defaultGoal>install</defaultGoal>
 	</build>
 
 </project>
