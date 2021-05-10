@@ -22,9 +22,15 @@ public class UserService {
 		userRepository.insertUser(user);
 	}
 	
+	public User getUser(long user_id) {
+		User user = userRepository.selectUser_id(user_id);
+		
+		return user;
+	}
+	
 	public User loginUser(LoginForm loginForm) {
 		
-		User user = userRepository.selectUser(loginForm.getUserid());
+		User user = userRepository.selectUserid(loginForm.getUserid());
 		
 		if(user == null) {
 			return null;

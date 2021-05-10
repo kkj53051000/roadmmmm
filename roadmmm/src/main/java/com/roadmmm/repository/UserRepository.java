@@ -19,7 +19,13 @@ public class UserRepository {
 		em.persist(user);
 	}
 	
-	public User selectUser(String userid) {
+	public User selectUser_id(long user_id) {
+		User user = em.find(User.class, user_id);
+		
+		return user;
+	}
+	
+	public User selectUserid(String userid) {
 		List<User> user = new ArrayList<User>();
 		
 		user = em.createQuery("select u from User u where userid = :userid", User.class)

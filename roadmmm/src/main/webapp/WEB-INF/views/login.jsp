@@ -36,7 +36,7 @@
 				  <input name="userpw" type="password" class="form-control" id="floatingPassword" placeholder="Password">
 				  <label for="floatingPassword">비밀번호</label>
 				</div><br/>
-				<button type="button" class="btn btn-dark">로그인</button>
+				<button type="submit" class="btn btn-dark">로그인</button>
 			</form>
 		</div>
 	</div>
