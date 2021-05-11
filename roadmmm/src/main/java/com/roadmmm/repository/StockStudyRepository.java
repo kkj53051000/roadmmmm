@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,11 +21,20 @@ public class StockStudyRepository {
 		em.persist(stockStudy);
 	}
 	
-	public List<StockStudy> selectStockStduys(){
+	public List<StockStudy> selectStockStduys(int start){
 		
-		List<StockStudy> stockStduys = em.createQuery("select s From StockStudy s", StockStudy.class)
+		TypedQuery<StockStudy> query = em.createQuery("select s From StockStudy s order by s.id desc", StockStudy.class);
+		
+		query.setFirstResult(start);
+		query.setMaxResults(10);
+		
+		List<StockStudy> stockStduys = query.getResultList();
+		
+		/*
+		List<StockStudy> stockStduys = em.createQuery("select s From StockStudy s order by s.id desc", StockStudy.class)
+				.setFirstResult(start)
 				.getResultList();
-		
+		*/
 		return stockStduys;
 		
 	}
@@ -36,5 +47,16 @@ public class StockStudyRepository {
 		
 		return stockStduys;
 		
+	}
+	
+	public int selectStockStudyCount() {
+		
+		Query countQuery = em.createQuery("select count(s) From StockStudy s");
+		
+		long count = (Long)countQuery.getSingleResult();
+		
+		int countInt = (int)count;
+		
+		return countInt;
 	}
 }

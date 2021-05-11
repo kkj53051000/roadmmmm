@@ -23,10 +23,10 @@ public class StockStudyService {
 		
 	}
 	
-	public List<StockStudy> findStockStudys(){
+	public List<StockStudy> findStockStudys(int start){
 		
 		
-		List<StockStudy> stockStudys = stockStudyRepository.selectStockStduys();
+		List<StockStudy> stockStudys = stockStudyRepository.selectStockStduys(start);
 		
 		return stockStudys;
 	}
@@ -37,5 +37,9 @@ public class StockStudyService {
 		List<StockStudy> stockStudys = stockStudyRepository.selectStockStduysAn(tag);
 		
 		return stockStudys;
+	}
+	
+	public int findStockStudyCount() {
+		return stockStudyRepository.selectStockStudyCount();
 	}
 }

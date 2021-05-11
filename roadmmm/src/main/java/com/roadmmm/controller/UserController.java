@@ -9,29 +9,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.roadmmm.domain.User;
-import com.roadmmm.email.EmailUtil;
 import com.roadmmm.service.UserService;
 import com.roadmmm.vo.JoinForm;
 import com.roadmmm.vo.LoginForm;
 import com.roadmmm.vo.UserSessionForm;
 
 @Controller
-public class UserController extends JavaMailSenderImpl {
+public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
 	@Autowired
-	private EmailUtil emailUtil;
+	private JavaMailSender mailSender;
 	
 	@GetMapping("/")
 	public String mainPage() {
@@ -54,8 +51,6 @@ public class UserController extends JavaMailSenderImpl {
 		return "logout";
 	}
 	
-	private JavaMailSender javaMailSender;
-	
 	@PostMapping("/joinprocess")
 	public String join(JoinForm joinForm) {
 		
@@ -64,11 +59,24 @@ public class UserController extends JavaMailSenderImpl {
 		userService.saveUser(joinForm);
 		
 		
-			Random random = new Random();
-			int auth = random.nextInt();
 			
-			emailUtil.sendEmail("tkarnrwl7418@naver.com", "스프링을 이용한 메일 전송", "되는지 테스트 하는 거예요");
-        
+			try {
+				Random random = new Random();
+				int auth = random.nextInt();
+				
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+				messageHelper.setFrom("roadtomillio"); // 보내는사람 생략하면 정상작동을 안함
+				messageHelper.setTo(joinForm.getEmail()); // 받는사람 이메일
+				messageHelper.setSubject(joinForm.getNickname() + "님 로드밀 인증 메일입니다."); // 메일제목은 생략이 가능하다
+				messageHelper.setText("인증번호 : " + auth); // 메일 내용
+
+				mailSender.send(message);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
         
 		
 		return "redirect:/";

@@ -81,7 +81,7 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				  <c:forEach var="s" items="${stockStudys}">
+				  <c:forEach var="s" items="${vo.stockStudys}">
 					   <tr>
 					      <th scope="row">${s.id}</th>
 					      <td>${s.title}</td>
@@ -91,6 +91,12 @@
 				  </c:forEach>
 				  </tbody>
 				</table>
+				
+				<div>
+					<c:forEach var="p" items="${vo.pageList}">
+						<span>${p} </span>
+					</c:forEach>
+				</div>
 				
 			</div>
 		</div>
