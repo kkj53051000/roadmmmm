@@ -58,25 +58,25 @@ public class UserController {
 		
 		userService.saveUser(joinForm);
 		
-		
+		//메일인증 부분
+		/*
+		try {
+			Random random = new Random();
+			int auth = random.nextInt();
 			
-			try {
-				Random random = new Random();
-				int auth = random.nextInt();
-				
-				MimeMessage message = mailSender.createMimeMessage();
-				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
-				messageHelper.setFrom("roadtomillio"); // 보내는사람 생략하면 정상작동을 안함
-				messageHelper.setTo(joinForm.getEmail()); // 받는사람 이메일
-				messageHelper.setSubject(joinForm.getNickname() + "님 로드밀 인증 메일입니다."); // 메일제목은 생략이 가능하다
-				messageHelper.setText("인증번호 : " + auth); // 메일 내용
+			messageHelper.setFrom("roadtomillio"); // 보내는사람 생략하면 정상작동을 안함
+			messageHelper.setTo(joinForm.getEmail()); // 받는사람 이메일
+			messageHelper.setSubject(joinForm.getNickname() + "님 로드밀 인증 메일입니다."); // 메일제목은 생략이 가능하다
+			messageHelper.setText("인증번호 : " + auth); // 메일 내용
 
-				mailSender.send(message);
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		 */
         
 		
 		return "redirect:/";

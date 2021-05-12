@@ -70,4 +70,10 @@ public class StockStudyRepository {
 		
 		return countInt;
 	}
+	
+	public StockStudy selectStockStudy(long id) {
+		StockStudy stockStudy = em.find(StockStudy.class, id);
+		
+		return stockStudy;
+	}
 }

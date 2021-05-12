@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<title>주식 공부</title>
 	<style>
-		.ss_wrap{
+		.ssl_wrap{
 			width: 100%;
 			
 			display: flex;
@@ -17,13 +17,13 @@
 			
 			margin-top: 50px;
 		}
-		.ss_main{
+		.ssl_main{
 			width: 90%;
 			
 			display: flex;
 			flex-direction: row;
 		}
-		.ss_list{
+		.ssl_list{
 		
 			width: 1000px;
 			
@@ -32,16 +32,16 @@
 			flex-direction: column;
 			
 		}
-		.ss_write_button{
+		.ssl_write_button{
 			margin-top: 20px;
 		
 			display: flex;
 			justify-content: flex-end;
 		}
-		.ss_bar > nav{
+		.ssl_bar > nav{
 			border:2px solid black;
 		}
-		.ss_bar > nav > a:hover {
+		.ssl_bar > nav > a:hover {
 		  background-color: black;
 		  color: white;
 		}
@@ -59,15 +59,15 @@
 </head>
 <body>
 	<%@ include file="common/header.jsp" %>
-	<div class="ss_wrap">
-		<div class="ss_main">
+	<div class="ssl_wrap">
+		<div class="ssl_main">
 			<div>
 				<%@ include file="common/navList.jsp" %>
 			</div>
 			
-			<div class="ss_list">
+			<div class="ssl_list">
 				
-				<div class="ss_bar">
+				<div class="ssl_bar">
 					<nav class="nav nav-pills nav-fill">
 					  <a class="nav-link" aria-current="page" href="/sslist?sector=ALL">전체</a>
 					  <a class="nav-link " href="/sslist?sector=STOCK">주식</a>
@@ -77,7 +77,7 @@
 					</nav>
 				</div>
 				
-				<div class="ss_write_button">
+				<div class="ssl_write_button">
 					<a href="/sswrite"><button type="button" class="btn btn-dark">글 작성</button></a>
 				</div>
 				
@@ -94,7 +94,7 @@
 				  <c:forEach var="s" items="${vo.stockStudys}">
 					   <tr>
 					      <th scope="row">${s.id}</th>
-					      <td>${s.title}</td>
+					      <td><a href="/sscontent?id=${s.id}">${s.title}</a></td>
 					      <td>${s.content}</td>
 					      <td>${s.date}</td>
 					    </tr>

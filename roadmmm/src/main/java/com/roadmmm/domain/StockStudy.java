@@ -3,6 +3,7 @@ package com.roadmmm.domain;
 import java.util.Date;
 
 import javax.persistence.Column;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,7 +23,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class StockStudy {
+public class StockStudy implements Board {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="stockstudy_id")
 	private long id;

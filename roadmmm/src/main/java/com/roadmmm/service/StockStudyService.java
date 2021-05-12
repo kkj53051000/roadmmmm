@@ -184,4 +184,8 @@ public class StockStudyService {
 		
 		return vo;
 	}
+	
+	public StockStudy findStockStudy(long id) {
+		return stockStudyRepository.selectStockStudy(id);
+	}
 }

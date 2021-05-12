@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.roadmmm.domain.StockStudy;
+import com.roadmmm.domain.StockStudyRecommend;
 import com.roadmmm.domain.StockStudyTag;
 import com.roadmmm.domain.User;
+import com.roadmmm.service.StockStudyRecommendService;
 import com.roadmmm.service.StockStudyService;
 import com.roadmmm.service.UserService;
 import com.roadmmm.vo.StockStudyForm;
@@ -25,6 +27,9 @@ public class StockStudyController {
 	
 	@Autowired
 	private StockStudyService stockStudyService;
+	
+	@Autowired
+	private StockStudyRecommendService stockStudyRecommendService;
 	
 	@Autowired
 	private UserService userService;
@@ -42,7 +47,7 @@ public class StockStudyController {
 		if(userSession == null) {
 			return "redirect:/";
 		}
-		for(int i = 0; i <= 10000; i++) {
+		for(int i = 0; i <= 101; i++) {
 			User user = userService.getUser(userSession.getUser_id());
 			
 			Date now = new Date();
@@ -53,7 +58,7 @@ public class StockStudyController {
 		}
 		
 		
-		return "redirect:/sslist?sector=all";
+		return "redirect:/sslist?sector=ALL";
 	}
 	
 	@GetMapping("/sslist")
@@ -78,5 +83,48 @@ public class StockStudyController {
 			
 			return "stockStudyList";
 		}
+	}
+	
+	@GetMapping("/sscontent")
+	public String StockStudyContent(HttpServletRequest request, Model model) {
+		
+		long id = Long.parseLong(request.getParameter("id"));
+		//id 컨텐츠
+		StockStudy stockStudy = stockStudyService.findStockStudy(id);
+		
+		//추천 비추천 개수
+		int upCount = stockStudyRecommendService.getStockStudyRecommendUpCount(id);
+		
+		model.addAttribute("vo", stockStudy);
+		model.addAttribute("up", upCount);
+		
+		return "stockStudyContent";
+	}
+	
+	@GetMapping("/ssrecommendprocess")
+	public String StockStudyRecommendProcess(HttpServletRequest request, HttpSession session) {
+		UserSessionForm userSessionForm = (UserSessionForm)session.getAttribute("user");
+		
+		User user = userService.getUser(userSessionForm.getUser_id());
+		
+		boolean updown = Boolean.parseBoolean(request.getParameter("updown"));
+		long ssId = Long.parseLong(request.getParameter("id"));
+		
+		//추천 이미 눌렀는지 확인
+		boolean check = stockStudyRecommendService.checkStockStudyRecommend(ssId, user.getId());
+		
+		if(check == true) {
+			return "redirect:/";
+		}
+		
+		
+		StockStudy stockStudy = stockStudyService.findStockStudy(ssId);
+		
+		StockStudyRecommend stockStudyRecommend = new StockStudyRecommend(updown, user, stockStudy);
+		
+		stockStudyRecommendService.saveStockStudyRecommend(stockStudyRecommend);
+		
+		return "redirect:/sscontent?id=" + ssId;
+		
 	}
 }
