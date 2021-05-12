@@ -45,6 +45,16 @@
 		  background-color: black;
 		  color: white;
 		}
+		.ssl_paging{
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			
+		}
+		.ssl_paging > a{
+			margin: 5px;
+		}
 	</style>
 </head>
 <body>
@@ -59,7 +69,7 @@
 				
 				<div class="ss_bar">
 					<nav class="nav nav-pills nav-fill">
-					  <a class="nav-link" aria-current="page" href="/sslist?sector=all">전체</a>
+					  <a class="nav-link" aria-current="page" href="/sslist?sector=ALL">전체</a>
 					  <a class="nav-link " href="/sslist?sector=STOCK">주식</a>
 					  <a class="nav-link " href="/sslist?sector=TERM">용어</a>
 					  <a class="nav-link" href="/sslist?sector=CHART">차트</a>
@@ -92,10 +102,18 @@
 				  </tbody>
 				</table>
 				
-				<div>
+				<div class="ssl_paging">
+					<c:if test="${vo.beforePage}">
+						<a href="/sslist?sector=${vo.tag}&page=${vo.beforePageNum}"><span>이전</span></a>
+					</c:if>
+					
 					<c:forEach var="p" items="${vo.pageList}">
-						<span>${p} </span>
+						<a href="/sslist?sector=${vo.tag}&page=${p}"><span>${p} </span></a>
 					</c:forEach>
+					<c:if test="${vo.afterPage}">
+						<a href="/sslist?sector=${vo.tag}&page=${vo.afterPageNum}"><span>다음</span></a>
+					</c:if>
+					
 				</div>
 				
 			</div>

@@ -1,5 +1,5 @@
 package com.roadmmm.domain;
 
 public enum StockStudyTag {
-	STOCK, TERM, CHART
+	ALL, STOCK, TERM, CHART
 }

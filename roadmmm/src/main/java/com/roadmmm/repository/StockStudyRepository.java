@@ -30,20 +30,19 @@ public class StockStudyRepository {
 		
 		List<StockStudy> stockStduys = query.getResultList();
 		
-		/*
-		List<StockStudy> stockStduys = em.createQuery("select s From StockStudy s order by s.id desc", StockStudy.class)
-				.setFirstResult(start)
-				.getResultList();
-		*/
 		return stockStduys;
 		
 	}
 	
-	public List<StockStudy> selectStockStduysAn(StockStudyTag tag){
+	public List<StockStudy> selectStockStduysAn(StockStudyTag tag, int start){
 		
-		List<StockStudy> stockStduys = em.createQuery("select s From StockStudy s where tag = :tag", StockStudy.class)
-				.setParameter("tag", tag)
-				.getResultList();
+		TypedQuery<StockStudy> query = em.createQuery("select s FROM StockStudy s WHERE s.tag = :tag ORDER BY s.id desc", StockStudy.class);
+		
+		query.setParameter("tag", tag);
+		query.setFirstResult(start);
+		query.setMaxResults(10);
+		
+		List<StockStudy> stockStduys = query.getResultList();
 		
 		return stockStduys;
 		
@@ -52,6 +51,18 @@ public class StockStudyRepository {
 	public int selectStockStudyCount() {
 		
 		Query countQuery = em.createQuery("select count(s) From StockStudy s");
+		
+		long count = (Long)countQuery.getSingleResult();
+		
+		int countInt = (int)count;
+		
+		return countInt;
+	}
+	
+	public int selectStockStudtCountTag(StockStudyTag tag) {
+		Query countQuery = em.createQuery("select count(s) From StockStudy s WHERE s.tag = :tag");
+		
+		countQuery.setParameter("tag", tag);
 		
 		long count = (Long)countQuery.getSingleResult();
 		
