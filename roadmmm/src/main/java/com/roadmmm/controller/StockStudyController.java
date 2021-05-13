@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.roadmmm.domain.StockStudy;
+import com.roadmmm.domain.StockStudyComment;
 import com.roadmmm.domain.StockStudyRecommend;
 import com.roadmmm.domain.StockStudyTag;
 import com.roadmmm.domain.User;
+import com.roadmmm.service.StockStudyCommentService;
 import com.roadmmm.service.StockStudyRecommendService;
 import com.roadmmm.service.StockStudyService;
 import com.roadmmm.service.UserService;
@@ -30,6 +32,9 @@ public class StockStudyController {
 	
 	@Autowired
 	private StockStudyRecommendService stockStudyRecommendService;
+	
+	@Autowired
+	private StockStudyCommentService stockStudyCommentService;
 	
 	@Autowired
 	private UserService userService;
@@ -126,5 +131,23 @@ public class StockStudyController {
 		
 		return "redirect:/sscontent?id=" + ssId;
 		
+	}
+	
+	@PostMapping("/sscommentprocess")
+	public String StockStudyCommentProcess(HttpServletRequest request, HttpSession session) {
+		UserSessionForm userSessionForm = (UserSessionForm)session.getAttribute("user");
+		
+		User user = userService.getUser(userSessionForm.getUser_id());
+		
+		int ssid = Integer.parseInt(request.getParameter("ssid"));
+		String content = request.getParameter("content");
+		
+		StockStudy stockStudy = stockStudyService.findStockStudy(ssid);
+		
+		StockStudyComment stockStudyComment = new StockStudyComment(content, user, stockStudy);
+		
+		stockStudyCommentService.saveStockStudyComment(stockStudyComment);
+		
+		return "";
 	}
 }

@@ -47,9 +47,14 @@
 					<a href="/ssrecommendprocess?updown=true&id=${vo.id}"><button type="button" class="btn btn-outline-dark">추천</button></a>
 					<a href="#"><button type="button" class="btn btn-outline-dark">비추천</button></a>
 				</div>
-				
-				
 			</div>
+		</div>
+		
+		<div class="ssc_comment">
+			<form action="/sscommentprocess?ssid=${vo.id}" method="POST">
+				댓글 내용 : <input name = "content"/>
+				<button type="submit">등록</button>
+			</form>
 		</div>
 	</div>
 </body>
