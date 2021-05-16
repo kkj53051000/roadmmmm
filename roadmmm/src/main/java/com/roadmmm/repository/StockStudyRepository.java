@@ -76,4 +76,10 @@ public class StockStudyRepository {
 		
 		return stockStudy;
 	}
+	
+	public void deleteStockStudy(long id) {
+		StockStudy stockStudy = em.find(StockStudy.class, id);
+		
+		em.remove(stockStudy);
+	}
 }

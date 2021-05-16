@@ -87,9 +87,23 @@
 					  <button type="submit" class="btn btn-dark write_btn">작성</button>
 					</div>
 				</form>
+				
+				
+				<div id="editor"></div>
+				
+				<script>
+				    ClassicEditor
+				        .create( document.querySelector( '#editor' ) )
+				        .catch( error => {
+				            console.error( error );
+				        } );
+				</script>
+				
 			</div>
 			
 		</div>
 	</div>
+	
+	<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
 </body>
 </html>

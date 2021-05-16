@@ -40,5 +40,19 @@ public class StockStudyRecommendRepository {
 		return countInt;
 		
 	}
+	
+	public int selectStockStudyRecommendDownCount(long ssid) {
+		
+		Query countQuery = em.createQuery("select count(s) FROM StockStudyRecommend s WHERE s.stockStudy.id = :id AND s.updown = false");
+		
+		countQuery.setParameter("id", ssid);
+		
+		long count = (Long)countQuery.getSingleResult();
+		
+		int countInt = (int)count;
+		
+		return countInt;
+		
+	}
 }
  

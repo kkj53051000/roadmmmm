@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @TableGenerator(
 		name = "USER_SEQ_GENERATOR",
-		table = "MYSHOP_SEQUENCES",
+		table = "ROADMMM_SEQUENCES",
 		pkColumnValue = "USER_SEQ", allocationSize = 50)
 public class User {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "USER_SEQ_GENERATOR")

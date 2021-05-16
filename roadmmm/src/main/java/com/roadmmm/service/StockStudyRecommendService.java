@@ -37,5 +37,11 @@ public class StockStudyRecommendService {
 		
 	}
 	
+	public int getStockStudyRecommendDwonCount(long ssid) {
+		
+		return stockStudyRecommendRepository.selectStockStudyRecommendDownCount(ssid);
+		
+	}
+	
 	
 }

@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StockStudyRecommend {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="boardRecommend_id")
+	@Column(name="stockstudyrecommend_id")
 	private long id;
 	
 	private boolean updown;

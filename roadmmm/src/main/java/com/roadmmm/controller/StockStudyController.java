@@ -1,6 +1,8 @@
 package com.roadmmm.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,12 +16,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.roadmmm.domain.StockStudy;
 import com.roadmmm.domain.StockStudyComment;
 import com.roadmmm.domain.StockStudyRecommend;
+import com.roadmmm.domain.StockStudyReply;
 import com.roadmmm.domain.StockStudyTag;
 import com.roadmmm.domain.User;
 import com.roadmmm.service.StockStudyCommentService;
 import com.roadmmm.service.StockStudyRecommendService;
+import com.roadmmm.service.StockStudyReplyService;
 import com.roadmmm.service.StockStudyService;
 import com.roadmmm.service.UserService;
+import com.roadmmm.vo.CommentEnum;
+import com.roadmmm.vo.StockStudyCommentVo;
+import com.roadmmm.vo.StockStudyContentVo;
 import com.roadmmm.vo.StockStudyForm;
 import com.roadmmm.vo.StockStudyListVo;
 import com.roadmmm.vo.UserSessionForm;
@@ -37,6 +44,9 @@ public class StockStudyController {
 	private StockStudyCommentService stockStudyCommentService;
 	
 	@Autowired
+	private StockStudyReplyService stockStudyReplyService;
+	
+	@Autowired
 	private UserService userService;
 	
 	@GetMapping("/sswrite")
@@ -44,6 +54,31 @@ public class StockStudyController {
 		return "stockStudyWrite";
 	}
 	
+	//리스트 관련.
+	@GetMapping("/sslist")
+	public String StockStudyList(HttpServletRequest request, Model model) {
+		
+		String sector = request.getParameter("sector");
+		String page = request.getParameter("page");
+		
+		//ALL과 나머지 ENUM들을 분류
+		if(sector.equals("ALL")) {
+			StockStudyListVo vo = stockStudyService.getStockStudyList(page, sector);
+			
+			model.addAttribute("vo", vo);
+			
+			return "stockStudyList";
+			
+			
+		}else {
+			StockStudyListVo vo = stockStudyService.getStockStudyListTag(page, sector);
+			
+			model.addAttribute("vo", vo);
+			
+			return "stockStudyList";
+		}
+	}
+	//글 관련.
 	@PostMapping("/stockstudyprocess")
 	public String StockStudyProcess(HttpServletRequest request, HttpSession session, StockStudyForm stockStudyForm){
 		
@@ -66,46 +101,66 @@ public class StockStudyController {
 		return "redirect:/sslist?sector=ALL";
 	}
 	
-	@GetMapping("/sslist")
-	public String StockStudyList(HttpServletRequest request, Model model) {
-		
-		String sector = request.getParameter("sector");
-		String page = request.getParameter("page");
-		
-		//ALL과 나머지 ENUM들을 분류
-		if(sector.equals("ALL")) {
-			StockStudyListVo vo = stockStudyService.findStockStudyList(page, sector);
-			
-			model.addAttribute("vo", vo);
-			
-			return "stockStudyList";
-			
-			
-		}else {
-			StockStudyListVo vo = stockStudyService.findStockStudyListTag(page, sector);
-			
-			model.addAttribute("vo", vo);
-			
-			return "stockStudyList";
-		}
-	}
-	
 	@GetMapping("/sscontent")
 	public String StockStudyContent(HttpServletRequest request, Model model) {
 		
-		long id = Long.parseLong(request.getParameter("id"));
+		long ssId = Long.parseLong(request.getParameter("id"));
 		//id 컨텐츠
-		StockStudy stockStudy = stockStudyService.findStockStudy(id);
+		StockStudy stockStudy = stockStudyService.getStockStudy(ssId);
 		
 		//추천 비추천 개수
-		int upCount = stockStudyRecommendService.getStockStudyRecommendUpCount(id);
+		int upCount = stockStudyRecommendService.getStockStudyRecommendUpCount(ssId);
+		int downCount = stockStudyRecommendService.getStockStudyRecommendDwonCount(ssId);
 		
-		model.addAttribute("vo", stockStudy);
-		model.addAttribute("up", upCount);
+		//댓글, 답글
+		List<StockStudyCommentVo> stockStudyCommentVoList = new ArrayList<StockStudyCommentVo>();
+		
+		List<StockStudyComment> stockStudyComment = stockStudyCommentService.getStockStudyComments(ssId);
+		
+		for(int i =0; i < stockStudyComment.size(); i++) {
+			StockStudyCommentVo stockStudyCommentVo = new StockStudyCommentVo(stockStudyComment.get(i).getId(), stockStudyComment.get(i).getContent(), stockStudyComment.get(i).getUser(), CommentEnum.COMMENT);
+			stockStudyCommentVoList.add(stockStudyCommentVo);
+			
+			List<StockStudyReply> stockStudyReply = stockStudyReplyService.getStockStudyReplys(stockStudyComment.get(i).getId());
+			
+			if(stockStudyReply != null) {
+				for(int j = 0; j < stockStudyReply.size(); j++) {
+					stockStudyCommentVo = new StockStudyCommentVo(stockStudyReply.get(j).getId(), stockStudyReply.get(j).getContent(), stockStudyReply.get(j).getUser(), CommentEnum.REPLY);
+					stockStudyCommentVoList.add(stockStudyCommentVo);
+				}
+			}
+			
+		}
+		
+		StockStudyContentVo vo = new StockStudyContentVo(stockStudy, stockStudyComment, upCount, downCount);
+		
+		
+		
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("voc", stockStudyCommentVoList);
 		
 		return "stockStudyContent";
 	}
 	
+	@GetMapping("/sscontentdeleteprocess")
+	public String StockStudyContentDelete(HttpServletRequest request, HttpSession session) {
+		UserSessionForm userSessionForm = (UserSessionForm)session.getAttribute("user");
+		
+		long ssId = Long.parseLong(request.getParameter("ssid"));
+		
+		StockStudy stockStudy = stockStudyService.getStockStudy(ssId);
+		
+		if(userSessionForm.getUser_id() != stockStudy.getUser().getId()) {
+			return "redirect:/sslist";
+		}
+		
+		stockStudyService.removeStockStudy(ssId);
+		
+		return "redirect:/sslist";
+	}
+	
+	//추천 관련.
 	@GetMapping("/ssrecommendprocess")
 	public String StockStudyRecommendProcess(HttpServletRequest request, HttpSession session) {
 		UserSessionForm userSessionForm = (UserSessionForm)session.getAttribute("user");
@@ -123,7 +178,7 @@ public class StockStudyController {
 		}
 		
 		
-		StockStudy stockStudy = stockStudyService.findStockStudy(ssId);
+		StockStudy stockStudy = stockStudyService.getStockStudy(ssId);
 		
 		StockStudyRecommend stockStudyRecommend = new StockStudyRecommend(updown, user, stockStudy);
 		
@@ -133,21 +188,62 @@ public class StockStudyController {
 		
 	}
 	
+	//댓글 관련.
 	@PostMapping("/sscommentprocess")
 	public String StockStudyCommentProcess(HttpServletRequest request, HttpSession session) {
 		UserSessionForm userSessionForm = (UserSessionForm)session.getAttribute("user");
 		
 		User user = userService.getUser(userSessionForm.getUser_id());
 		
-		int ssid = Integer.parseInt(request.getParameter("ssid"));
+		int ssId = Integer.parseInt(request.getParameter("ssid"));
 		String content = request.getParameter("content");
 		
-		StockStudy stockStudy = stockStudyService.findStockStudy(ssid);
+		StockStudy stockStudy = stockStudyService.getStockStudy(ssId);
 		
 		StockStudyComment stockStudyComment = new StockStudyComment(content, user, stockStudy);
 		
 		stockStudyCommentService.saveStockStudyComment(stockStudyComment);
 		
-		return "";
+		return "redirect:/sscontent?id=" + ssId;
+	}
+	
+	@PostMapping("/sscommentdeleteprocess")
+	public String StockStudyCommentDeleteProcess(HttpServletRequest request, HttpSession session) {
+		UserSessionForm userSessionForm = (UserSessionForm)session.getAttribute("user");
+		
+		Long userId = Long.parseLong(request.getParameter("userid"));
+		Long sscmId = Long.parseLong(request.getParameter("sscmid"));
+		
+		//댓글 User와 다를경우.
+		if(userSessionForm.getUser_id() != userId) {
+			
+			return "redirect:/";
+		}
+		
+		stockStudyCommentService.removeSotckStudyComment(sscmId);
+		
+		return "redirect:/";
+	}
+	
+	//답글 관련.
+	@PostMapping("ssreplyprocess")
+	public String StockStudyReplyProcess(HttpServletRequest request, HttpSession session) {
+		UserSessionForm userSessionForm = (UserSessionForm)session.getAttribute("user");
+		
+		User user = userService.getUser(userSessionForm.getUser_id());
+		
+		String content = request.getParameter("content");
+		
+		long ssId = Long.parseLong(request.getParameter("ssid"));
+		long sscId = Long.parseLong(request.getParameter("sscid"));
+		
+		StockStudyComment stockStudyComment = stockStudyCommentService.getStockStudyComment(sscId);
+		
+		StockStudyReply stockStudyReply = new StockStudyReply(content, stockStudyComment, user);
+		
+		stockStudyReplyService.saveStockStudyReply(stockStudyReply);
+		
+		return "redirect:/sscontent?id=" + ssId;
+		
 	}
 }

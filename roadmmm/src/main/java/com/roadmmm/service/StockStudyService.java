@@ -27,7 +27,7 @@ public class StockStudyService {
 	
 	
 	
-	public StockStudyListVo findStockStudyList(String page, String sector) {
+	public StockStudyListVo getStockStudyList(String page, String sector) {
 		int currentPage = 0;
 		int startPage = 0;
 		
@@ -106,7 +106,7 @@ public class StockStudyService {
 		return vo;
 	}
 	
-	public StockStudyListVo findStockStudyListTag(String page, String sector) {
+	public StockStudyListVo getStockStudyListTag(String page, String sector) {
 		int currentPage = 0;
 		int startPage = 0;
 		
@@ -176,8 +176,6 @@ public class StockStudyService {
 				pageList.add(i);
 			}
 			
-			
-			
 		}
 		
 		StockStudyListVo vo = new StockStudyListVo(stockStudys, pageList, beforePage, afterPage, beforePageNum, afterPageNum, tag);
@@ -185,7 +183,11 @@ public class StockStudyService {
 		return vo;
 	}
 	
-	public StockStudy findStockStudy(long id) {
+	public StockStudy getStockStudy(long id) {
 		return stockStudyRepository.selectStockStudy(id);
+	}
+	
+	public void removeStockStudy(long id) {
+		stockStudyRepository.deleteStockStudy(id);
 	}
 }

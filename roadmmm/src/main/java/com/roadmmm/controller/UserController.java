@@ -51,6 +51,7 @@ public class UserController {
 		return "logout";
 	}
 	
+	//회원가입.
 	@PostMapping("/joinprocess")
 	public String join(JoinForm joinForm) {
 		
@@ -82,7 +83,7 @@ public class UserController {
 		return "redirect:/";
 	} 
 	
-	
+	//로그인.
 	@PostMapping("/loginprocess")
 	public String login(LoginForm loginForm, HttpServletRequest request) {
 		
