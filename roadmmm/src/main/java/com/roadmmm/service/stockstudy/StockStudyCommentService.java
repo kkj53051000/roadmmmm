@@ -1,4 +1,4 @@
-package com.roadmmm.service;
+package com.roadmmm.service.stockstudy;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.roadmmm.domain.StockStudyComment;
-import com.roadmmm.repository.StockStudyCommentRepository;
+import com.roadmmm.domain.stockstudy.StockStudyComment;
+import com.roadmmm.repository.stockstudy.StockStudyCommentRepository;
 
 @Service
 @Transactional
@@ -19,14 +19,14 @@ public class StockStudyCommentService {
 		stockStudyCommentRepository.insertStockStudyComment(stockStudyComment);
 	}
 	
-	public List<StockStudyComment> getStockStudyComments(long id) {
-		List<StockStudyComment> stockStudyComment =stockStudyCommentRepository.selectStockStudyComments(id);
+	public List<StockStudyComment> getStockStudyComments(long ssId) {
+		List<StockStudyComment> stockStudyComment =stockStudyCommentRepository.selectStockStudyComments(ssId);
 		
 		return stockStudyComment;
 	}
 	
-	public void removeSotckStudyComment(long id) {
-		stockStudyCommentRepository.deleteStockStudyComment(id);
+	public void removeSotckStudyComment(long sscId) {
+		stockStudyCommentRepository.deleteStockStudyComment(sscId);
 	}
 	
 	public StockStudyComment getStockStudyComment(long sscId) {

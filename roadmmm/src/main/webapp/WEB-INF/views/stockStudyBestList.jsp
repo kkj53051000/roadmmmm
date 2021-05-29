@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>주식 공부</title>
+<meta charset="UTF-8">
+	<title>Insert title here</title>
+	</head>
 	<style>
-		.ssl_wrap{
+		.ssb_wrap{
 			width: 100%;
 			
 			display: flex;
@@ -17,13 +17,13 @@
 			
 			margin-top: 50px;
 		}
-		.ssl_main{
+		.ssb_main{
 			width: 90%;
 			
 			display: flex;
 			flex-direction: row;
 		}
-		.ssl_list{
+		.ssb_list{
 		
 			width: 1000px;
 			
@@ -32,52 +32,23 @@
 			flex-direction: column;
 			
 		}
-		.ssl_write_button{
+		.ssb_write_button{
 			margin-top: 20px;
 		
 			display: flex;
 			justify-content: flex-end;
 		}
-		.ssl_bar > nav{
-			border:2px solid black;
-		}
-		.ssl_bar > nav > a:hover {
-		  background-color: black;
-		  color: white;
-		}
-		.ssl_paging{
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
-			
-		}
-		.ssl_paging > a{
-			margin: 5px;
-		}
 	</style>
-</head>
 <body>
 	<%@ include file="common/header.jsp" %>
-	<div class="ssl_wrap">
-		<h1><a href="/ssbestlist">베스트리스트</a></h1>
-		<div class="ssl_main">
+	<div class="ssb_wrap">
+		<div class="ssb_main">
 			<div>
 				<%@ include file="common/navList.jsp" %>
 			</div>
-			<div class="ssl_list">
+			<div class="ssb_list">
 				
-				<div class="ssl_bar">
-					<nav class="nav nav-pills nav-fill">
-					  <a class="nav-link" aria-current="page" href="/sslist?sector=ALL">전체</a>
-					  <a class="nav-link " href="/sslist?sector=STOCK">주식</a>
-					  <a class="nav-link " href="/sslist?sector=TERM">용어</a>
-					  <a class="nav-link" href="/sslist?sector=CHART">차트</a>
-					  
-					</nav>
-				</div>
-				
-				<div class="ssl_write_button">
+				<div class="ssb_write_button">
 					<a href="/sswrite"><button type="button" class="btn btn-dark">글 작성</button></a>
 				</div>
 				
@@ -104,14 +75,14 @@
 				
 				<div class="ssl_paging">
 					<c:if test="${vo.beforePage}">
-						<a href="/sslist?sector=${vo.tag}&page=${vo.beforePageNum}"><span>이전</span></a>
+						<a href="/ssbestlist?sector=${vo.tag}&page=${vo.beforePageNum}"><span>이전</span></a>
 					</c:if>
 					
 					<c:forEach var="p" items="${vo.pageList}">
-						<a href="/sslist?sector=${vo.tag}&page=${p}"><span>${p} </span></a>
+						<a href="/ssbestlist?page=${p}"><span>${p} </span></a>
 					</c:forEach>
 					<c:if test="${vo.afterPage}">
-						<a href="/sslist?sector=${vo.tag}&page=${vo.afterPageNum}"><span>다음</span></a>
+						<a href="/ssbestlist?page=${vo.afterPageNum}"><span>다음</span></a>
 					</c:if>
 					
 				</div>

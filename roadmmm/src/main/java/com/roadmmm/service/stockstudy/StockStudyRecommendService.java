@@ -1,4 +1,4 @@
-package com.roadmmm.service;
+package com.roadmmm.service.stockstudy;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.roadmmm.domain.StockStudyRecommend;
-import com.roadmmm.repository.StockStudyRecommendRepository;
+import com.roadmmm.domain.stockstudy.StockStudyRecommend;
+import com.roadmmm.repository.stockstudy.StockStudyRecommendRepository;
 
 @Service
 @Transactional
@@ -31,15 +31,15 @@ public class StockStudyRecommendService {
 		return false;
 	}
 	
-	public int getStockStudyRecommendUpCount(long ssid) {
+	public int getStockStudyRecommendUpCount(long ssId) {
 		
-		return stockStudyRecommendRepository.selectStockStudyRecommendUpCount(ssid);
+		return stockStudyRecommendRepository.selectStockStudyRecommendUpCount(ssId);
 		
 	}
 	
-	public int getStockStudyRecommendDwonCount(long ssid) {
+	public int getStockStudyRecommendDwonCount(long ssId) {
 		
-		return stockStudyRecommendRepository.selectStockStudyRecommendDownCount(ssid);
+		return stockStudyRecommendRepository.selectStockStudyRecommendDownCount(ssId);
 		
 	}
 	

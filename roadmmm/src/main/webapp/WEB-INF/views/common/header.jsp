@@ -46,9 +46,10 @@
 				<a href="/"><button type="button" class="btn btn-outline-secondary">메인</button></a>&nbsp;
 				<a href="/login"><button type="button" class="btn btn-outline-dark">로그인</button></a>&nbsp;
 				<a href="/join"><button type="button" class="btn btn-outline-dark">회원가입</button></a>&nbsp;
+				
 			</c:if>
 			<c:if test="${user != null}">
-				<a href="/">main</a>&nbsp;&nbsp;<a href="/logout">logout</a>
+				<a href="/">main</a>&nbsp;&nbsp;<a href="/logout">logout</a>&nbsp;&nbsp;<a href="/biadmin">게시판 관리자 페이지</a>
 			</c:if>
 		</div>
 	</div>

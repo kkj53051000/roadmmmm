@@ -13,17 +13,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.roadmmm.domain.StockStudy;
-import com.roadmmm.domain.StockStudyComment;
-import com.roadmmm.domain.StockStudyRecommend;
-import com.roadmmm.domain.StockStudyReply;
-import com.roadmmm.domain.StockStudyTag;
 import com.roadmmm.domain.User;
-import com.roadmmm.service.StockStudyCommentService;
-import com.roadmmm.service.StockStudyRecommendService;
-import com.roadmmm.service.StockStudyReplyService;
-import com.roadmmm.service.StockStudyService;
+import com.roadmmm.domain.boardinfos.BoardListEnum;
+import com.roadmmm.domain.stockstudy.StockStudy;
+import com.roadmmm.domain.stockstudy.StockStudyComment;
+import com.roadmmm.domain.stockstudy.StockStudyRecommend;
+import com.roadmmm.domain.stockstudy.StockStudyReply;
+import com.roadmmm.domain.stockstudy.StockStudyTag;
 import com.roadmmm.service.UserService;
+import com.roadmmm.service.boardinfos.BoardInfosService;
+import com.roadmmm.service.stockstudy.StockStudyCommentService;
+import com.roadmmm.service.stockstudy.StockStudyRecommendService;
+import com.roadmmm.service.stockstudy.StockStudyReplyService;
+import com.roadmmm.service.stockstudy.StockStudyService;
 import com.roadmmm.vo.CommentEnum;
 import com.roadmmm.vo.StockStudyCommentVo;
 import com.roadmmm.vo.StockStudyContentVo;
@@ -47,6 +49,9 @@ public class StockStudyController {
 	private StockStudyReplyService stockStudyReplyService;
 	
 	@Autowired
+	private BoardInfosService boardsInfoService;
+	
+	@Autowired
 	private UserService userService;
 	
 	@GetMapping("/sswrite")
@@ -68,8 +73,6 @@ public class StockStudyController {
 			model.addAttribute("vo", vo);
 			
 			return "stockStudyList";
-			
-			
 		}else {
 			StockStudyListVo vo = stockStudyService.getStockStudyListTag(page, sector);
 			
@@ -78,6 +81,26 @@ public class StockStudyController {
 			return "stockStudyList";
 		}
 	}
+	
+	
+	//베스트 게시글 관련.
+	@GetMapping("/ssbestlist")
+	public String StockStudyBestList(HttpServletRequest request, HttpSession session, Model model) {
+		
+		String page = request.getParameter("page");
+		
+		int bestStandard = boardsInfoService.getBoardInfosBestStandard("StockStudy");
+		
+		int start = 0;
+		
+		StockStudyListVo vo = stockStudyService.getStockStudyBestList(page, start, bestStandard);
+		
+		model.addAttribute("vo", vo);
+		
+		return "stockStudyBestList";
+	}
+	
+	
 	//글 관련.
 	@PostMapping("/stockstudyprocess")
 	public String StockStudyProcess(HttpServletRequest request, HttpSession session, StockStudyForm stockStudyForm){
@@ -92,11 +115,12 @@ public class StockStudyController {
 			
 			Date now = new Date();
 			
-			StockStudy stockStudy = new StockStudy(stockStudyForm.getTitle(), stockStudyForm.getContent(), now, StockStudyTag.valueOf(stockStudyForm.getTag()), user);
+			System.out.println("now : " + now);
+			
+			StockStudy stockStudy = new StockStudy(stockStudyForm.getTitle(), stockStudyForm.getContent(), now, StockStudyTag.valueOf(stockStudyForm.getTag()), 0, 0, false, user);
 			
 			stockStudyService.saveStockStudy(stockStudy);
 		}
-		
 		
 		return "redirect:/sslist?sector=ALL";
 	}
@@ -132,10 +156,7 @@ public class StockStudyController {
 			
 		}
 		
-		StockStudyContentVo vo = new StockStudyContentVo(stockStudy, stockStudyComment, upCount, downCount);
-		
-		
-		
+		StockStudyContentVo vo = new StockStudyContentVo(stockStudy, stockStudyComment, upCount, downCount);	
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("voc", stockStudyCommentVoList);
@@ -177,8 +198,27 @@ public class StockStudyController {
 			return "redirect:/";
 		}
 		
+		if(updown == true) {
+			stockStudyService.addStockStudyUpCount(ssId);
+		}else {
+			stockStudyService.addStockStudyDownCount(ssId);
+		}
 		
 		StockStudy stockStudy = stockStudyService.getStockStudy(ssId);
+		
+		//베스트글 True
+		int bestStandard = boardsInfoService.getBoardInfosBestStandard("StockStudy");
+		
+		if(stockStudy.getUpCount() >= bestStandard) {
+			stockStudyService.setStockStudyBestCheck(ssId);
+		}
+		
+		//인기글 추가
+		int popularStandard = boardsInfoService.getBoardInfosPopularStandard("StockStudy");
+		
+		if(stockStudy.getUpCount() >= popularStandard) {
+			//Popular db insert
+		}
 		
 		StockStudyRecommend stockStudyRecommend = new StockStudyRecommend(updown, user, stockStudy);
 		
@@ -246,4 +286,6 @@ public class StockStudyController {
 		return "redirect:/sscontent?id=" + ssId;
 		
 	}
+	
+	
 }

@@ -2,8 +2,8 @@ package com.roadmmm.vo;
 
 import java.util.List;
 
-import com.roadmmm.domain.StockStudy;
-import com.roadmmm.domain.StockStudyTag;
+import com.roadmmm.domain.stockstudy.StockStudy;
+import com.roadmmm.domain.stockstudy.StockStudyTag;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +29,15 @@ public class StockStudyListVo {
 		this.afterPageNum = afterPageNum;
 		this.tag = tag;
 	}
+	
+	public StockStudyListVo(List<StockStudy> stockStudys, List<Integer> pageList, boolean beforePage, boolean afterPage, int beforePageNum, int afterPageNum) {
+		this.stockStudys = stockStudys;
+		this.pageList = pageList;
+		this.beforePage = beforePage;
+		this.afterPage = afterPage;
+		this.beforePageNum = beforePageNum;
+		this.afterPageNum = afterPageNum;
+	}
+	
 	
 }

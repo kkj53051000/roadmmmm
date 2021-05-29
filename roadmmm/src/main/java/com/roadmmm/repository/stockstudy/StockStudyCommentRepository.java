@@ -1,4 +1,4 @@
-package com.roadmmm.repository;
+package com.roadmmm.repository.stockstudy;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
-import com.roadmmm.domain.StockStudyComment;
+import com.roadmmm.domain.stockstudy.StockStudyComment;
 
 @Repository
 public class StockStudyCommentRepository {
@@ -18,16 +18,16 @@ public class StockStudyCommentRepository {
 		em.persist(stockStudyComment);
 	}
 	
-	public List<StockStudyComment> selectStockStudyComments(long id) {
+	public List<StockStudyComment> selectStockStudyComments(long sscId) {
 		List<StockStudyComment> stockStudyComments = em.createQuery("select s FROM StockStudyComment s join fetch s.user WHERE s.stockStudy.id = :id", StockStudyComment.class)
-				.setParameter("id", id)
+				.setParameter("id", sscId)
 				.getResultList();
 		
 		return stockStudyComments;
 	}
 	
-	public void deleteStockStudyComment(long id) {
-		StockStudyComment stockStudyComment = em.find(StockStudyComment.class, id);
+	public void deleteStockStudyComment(long sscId) {
+		StockStudyComment stockStudyComment = em.find(StockStudyComment.class, sscId);
 		
 		em.remove(stockStudyComment);
 	}

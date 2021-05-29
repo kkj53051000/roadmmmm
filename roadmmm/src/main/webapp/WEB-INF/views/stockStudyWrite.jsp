@@ -53,7 +53,13 @@
 			justify-content: center;
 			align-items: center;
 		}
+		#editorr{
+			height: 500px;
+		}
 	</style>
+	<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+	<script src="static/ckeditor5/ckeditor.js"></script>
+	
 </head>
 <body>
 	<%@ include file="common/header.jsp" %>
@@ -91,12 +97,33 @@
 				
 				<div id="editor"></div>
 				
+				<div id="editor1"></div>
+				
 				<script>
 				    ClassicEditor
-				        .create( document.querySelector( '#editor' ) )
+				    	.create( document.querySelector( '#editor' ), {
+				    		
+			                cloudServices: {
+			                    tokenUrl: 'https://80855.cke-cs.com/token/dev/3f9bc73c429f709f35759751d0d0104ef67b5baa095acc690500661dda03',
+			                    uploadUrl: 'https://80855.cke-cs.com/easyimage/upload/'
+			                }
+				        } )
 				        .catch( error => {
 				            console.error( error );
 				        } );
+				</script>
+				
+				<script>
+					ClassicEditor
+					.create( document.querySelector( '#editor1' ),{  // textarea의 id
+						language: 'ko',        
+						ckfinder: {
+					        uploadUrl: '/fileupload' // 내가 지정한 업로드 url (post로 요청감)
+					    }
+					} )
+					.catch( error => {
+					    console.error( error );
+					} );
 				</script>
 				
 			</div>
@@ -104,6 +131,6 @@
 		</div>
 	</div>
 	
-	<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+	
 </body>
 </html>

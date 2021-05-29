@@ -1,4 +1,4 @@
-package com.roadmmm.service;
+package com.roadmmm.service.stockstudy;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.roadmmm.domain.StockStudyReply;
-import com.roadmmm.repository.StockStudyReplyRepository;
+import com.roadmmm.domain.stockstudy.StockStudyReply;
+import com.roadmmm.repository.stockstudy.StockStudyReplyRepository;
 
 @Service
 @Transactional

@@ -1,4 +1,4 @@
-package com.roadmmm.repository;
+package com.roadmmm.repository.stockstudy;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import com.roadmmm.domain.StockStudyRecommend;
+import com.roadmmm.domain.stockstudy.StockStudyRecommend;
 
 @Repository
 public class StockStudyRecommendRepository {

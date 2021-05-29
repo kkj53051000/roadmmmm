@@ -20,6 +20,7 @@
 		<div class = "list_bar">
 			<div class="list-group">
 			  <a href="/sslist?sector=ALL" class="list-group-item list-group-item-action">주식 공부</a>
+			  <a href="#" class="list-group-item list-group-item-action">인기게시글</a>
 			  <a href="#" class="list-group-item list-group-item-action">자유게시판</a>
 			  <a href="#" class="list-group-item list-group-item-action">종목 스터디</a>
 			  <a href="#" class="list-group-item list-group-item-action">증권사 종류</a>

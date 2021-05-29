@@ -2,8 +2,8 @@ package com.roadmmm.vo;
 
 import java.util.List;
 
-import com.roadmmm.domain.StockStudy;
-import com.roadmmm.domain.StockStudyComment;
+import com.roadmmm.domain.stockstudy.StockStudy;
+import com.roadmmm.domain.stockstudy.StockStudyComment;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
