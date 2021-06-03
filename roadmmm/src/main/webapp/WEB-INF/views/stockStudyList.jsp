@@ -73,6 +73,7 @@
 					  <a class="nav-link " href="/sslist?sector=STOCK">주식</a>
 					  <a class="nav-link " href="/sslist?sector=TERM">용어</a>
 					  <a class="nav-link" href="/sslist?sector=CHART">차트</a>
+					  <a class="nav-link" href="/sslist?sector=INCIDENT">사건</a>
 					  
 					</nav>
 				</div>

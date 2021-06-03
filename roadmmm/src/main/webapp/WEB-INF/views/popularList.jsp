@@ -48,7 +48,7 @@
 </head>
 <body>
 	<%@ include file="common/header.jsp" %>
-	<div>
+	<div class="ppl_wrap">
 		<h1>인기게시글</h1>
 		<div class="ppl_main">
 			<div>
@@ -58,7 +58,7 @@
 				
 				<div class="ppl_bar">
 					<nav class="nav nav-pills nav-fill">
-					  <a class="nav-link" aria-current="page" href="/">실시간</a>
+					  <a class="nav-link" aria-current="page" href="/pplist?sector=LIVE">실시간</a>
 					  <a class="nav-link " href="/">일간</a>
 					  <a class="nav-link " href="/">주간</a>
 					  <a class="nav-link" href="/">월간</a>
@@ -79,7 +79,8 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				  <c:forEach var="p" items="${vo}">
+				  <c:forEach var="p"
+				   items="${vo}">
 					   <tr>
 					      <th scope="row">${p.boardId}</th>
 					      <td><a href="/sscontent?id=">${p.title}</a></td>

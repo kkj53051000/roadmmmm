@@ -1,6 +1,12 @@
 package com.roadmmm.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,16 +24,39 @@ public class PopularController {
 	PopularService popularService;
 	
 	@GetMapping("/pplist")
-	public String popularListPage(Model model) {
+	public String popularListPage(HttpServletRequest request, Model model) {
+		
+		String sector = request.getParameter("sector");
+		String dayStartStr = request.getParameter("day") + " 00:00:00";
+		String dayEndStr = request.getParameter("day") + " 23:59:59";
 		
 		List<PopularLive> popularLives = popularService.getPopularLives();
 		
-		
+		List<PopularInfoForm> popularInfoForms = new ArrayList<>();
 		
 		//해당 게시판의 제목, 아이디, 추천수, 날짜를 가져와야함.
-		List<PopularInfoForm> popularInfoForms = popularService.getPopularInfo(popularLives);
-		
-		
+		if(sector.equals("LIVE")) {
+			popularInfoForms = popularService.getPopularLiveInfo(popularLives);
+		}else if(sector.equals("DAY")) {			
+			try {
+				SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat fm_start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				
+				//Date dayDate = fm.parse(day);
+				Date dayStart = fm_start.parse(dayStartStr);
+				Date dayEnd = fm_start.parse(dayEndStr);
+				
+				System.out.println("dayStart : " + dayStart);
+				System.out.println("dayEnd : " + dayEnd);
+	
+				//List<PopularLive> popularDays = popularService.getPopularDays(dayStartStr, dayEndStr);
+				
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		model.addAttribute("vo", popularInfoForms);
 		

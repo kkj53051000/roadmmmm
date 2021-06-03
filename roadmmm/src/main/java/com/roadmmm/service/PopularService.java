@@ -1,6 +1,7 @@
 package com.roadmmm.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +29,15 @@ public class PopularService {
 		return popularLives;
 	}
 	
-	public List<PopularInfoForm> getPopularInfo(List<PopularLive> popularLives){
-		
-		System.out.println("popularLives.size() : "+ popularLives.size());
+	public List<PopularInfoForm> getPopularLiveInfo(List<PopularLive> popularLives){
 		
 		List<PopularInfoForm> popularInfoForms = new ArrayList<PopularInfoForm>();
 		
 		for(int i = 0; i < popularLives.size(); i++) {
 			
 			if(popularLives.get(i).getBoardName().equals("StockStudy")) {
-				StockStudy stockSutdy = popularRepository.selectPopularListInfo(popularLives.get(i));
 				
-				System.out.println("nickname : " +  stockSutdy.getUser().getNickname());
-
+				StockStudy stockSutdy = popularRepository.selectPopularLiveListInfo(popularLives.get(i));
 				
 				PopularInfoForm popularInfoForm = new PopularInfoForm(popularLives.get(i).getBoardId(), popularLives.get(i).getBoardName(), stockSutdy.getTitle(), stockSutdy.getDate(), stockSutdy.getUser().getNickname());
 				
@@ -49,6 +46,12 @@ public class PopularService {
 		}
 		
 		return popularInfoForms;
+	}
+	
+	public List<PopularLive> getPopularDays(String dayStart, String dayEnd){
+		List<PopularLive> popularDays = popularRepository.selectPopularDays(dayStart, dayEnd);
+		
+		return popularDays;
 	}
 	
 }

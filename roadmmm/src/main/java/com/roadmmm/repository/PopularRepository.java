@@ -2,6 +2,7 @@ package com.roadmmm.repository;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,7 +30,7 @@ public class PopularRepository {
 		return popularLives;
 	}
 	
-	public StockStudy selectPopularListInfo(PopularLive popularLive) {
+	public StockStudy selectPopularLiveListInfo(PopularLive popularLive) {
 		
 		Long pId = popularLive.getBoardId();
 		
@@ -43,6 +44,17 @@ public class PopularRepository {
 			
 
 		return stockStudys.get(0);
+		
+	}
+	
+	public List<PopularLive> selectPopularDays(String dayStart, String dayEnd) {
+		//jsql문법 확인 필
+		List<PopularLive> popularDays = em.createQuery("select p from PopularLive p WHERE p.date BETWEEN :sdate AND :edate ", PopularLive.class)
+				.setParameter("sdate", dayStart)
+				.setParameter("edate", dayEnd)
+				.getResultList();
+		
+		return popularDays;
 		
 	}
 	
