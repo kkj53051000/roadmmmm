@@ -59,6 +59,7 @@ public class StockStudyController {
 	@Autowired
 	private PopularService popularService;
 	
+	
 	@GetMapping("/sswrite")
 	public String StockStudyWrite() {
 		return "stockStudyWrite";
