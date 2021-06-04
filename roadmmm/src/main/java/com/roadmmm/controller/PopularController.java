@@ -34,7 +34,8 @@ public class PopularController {
 		
 		List<PopularInfoForm> popularInfoForms = new ArrayList<>();
 		
-		//해당 게시판의 제목, 아이디, 추천수, 날짜를 가져와야함.
+		
+		//해당 게시판의 제목, 아이디, 추천수, 날짜를 가져와야함. .
 		if(sector.equals("LIVE")) {
 			popularInfoForms = popularService.getPopularLiveInfo(popularLives);
 		}else if(sector.equals("DAY")) {			
