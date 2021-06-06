@@ -22,14 +22,8 @@ public class BoardInfosService {
 		return bestStandard;
 	}
 	
-	public int getBoardInfosPopularStandard(String board) {
-		int popularStandard = boardInfosRepository.selectBoardInfosPopularStandard(board);
-		
-		return popularStandard;
-	}
-	
 	public void saveBoardInfos(BoardInfosForm boardInfosForm) {
-		BoardInfos boardsInfo = new BoardInfos(boardInfosForm.getBestStandard(), boardInfosForm.getPopularStandard(), boardInfosForm.getBoard(), boardInfosForm.getInfo());
+		BoardInfos boardsInfo = new BoardInfos(boardInfosForm.getBestStandard(), boardInfosForm.getBoard(), boardInfosForm.getInfo());
 		
 		boardInfosRepository.insertBoardInfos(boardsInfo);
 	}

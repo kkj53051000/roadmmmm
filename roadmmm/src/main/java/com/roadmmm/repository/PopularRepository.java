@@ -49,9 +49,9 @@ public class PopularRepository {
 	
 	public List<PopularLive> selectPopularDays(String dayStart, String dayEnd) {
 		//jsql문법 확인 필
-		List<PopularLive> popularDays = em.createQuery("select p from PopularLive p WHERE p.date BETWEEN :sdate AND :edate ", PopularLive.class)
-				.setParameter("sdate", dayStart)
-				.setParameter("edate", dayEnd)
+		List<PopularLive> popularDays = em.createQuery("select p from PopularLive p WHERE p.date BETWEEN {ts :daystart} AND {ts :dayend} ", PopularLive.class)
+				.setParameter("daystart", dayStart)
+				.setParameter("datend", dayEnd)
 				.getResultList();
 		
 		return popularDays;

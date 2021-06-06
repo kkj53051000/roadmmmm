@@ -24,16 +24,6 @@ public class BoardInfosRepository {
 		return bestStandard;
 	}
 	
-	public int selectBoardInfosPopularStandard(String board) {
-		List<BoardInfos> boardsInfos = em.createQuery("select b FROM BoardInfos b where b.board = :board", BoardInfos.class)
-				.setParameter("board", board)
-				.getResultList();
-		
-		int popularStandard = boardsInfos.get(0).getPopularStandard();
-		
-		return popularStandard;
-	}
-	
 	public void insertBoardInfos(BoardInfos boardsInfo) {
 		em.persist(boardsInfo);
 	}

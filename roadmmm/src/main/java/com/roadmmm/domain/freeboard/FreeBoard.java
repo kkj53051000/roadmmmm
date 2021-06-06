@@ -1,4 +1,4 @@
-package com.roadmmm.domain;
+package com.roadmmm.domain.freeboard;
 
 import java.util.Date;
 
@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
 
+import com.roadmmm.domain.User;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,33 +22,25 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @TableGenerator(
-		name = "POPULARLIVE_SEQ_GENERATOR",
+		name = "FREEBOARD_SEQ_GENERATOR",
 		table = "ROADMMM_SEQUENCES",
-		pkColumnValue = "POPULARLIVE_SEQ", allocationSize = 50)
-public class PopularLive {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "POPULARLIVE_SEQ_GENERATOR")
-	@Column(name = "popularlive_id")
+		pkColumnValue = "FREEBOARD_SEQ", allocationSize = 50)
+public class FreeBoard {
+	@Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "FREEBOARD_SEQ_GENERATOR")
+	@Column(name="freeboard_id")
 	private long id;
 	
-	/*
-	@ManyToOne
-	@JoinColumn(name = "boardinfos_id")
-	BoardInfos boardInfos;
-	*/
-	
-	private String boardName;
-	
-	private long boardId;
-	
+	private String title;
+	private String content;
 	private Date date;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	public PopularLive(String boardName, long boardId, Date date,  User user) {
-		this.boardName = boardName;
-		this.boardId = boardId;
+	public FreeBoard(String title, String content, Date date, User user) {
+		this.title = title;
+		this.content = content;
 		this.date = date;
 		this.user = user;
 	}

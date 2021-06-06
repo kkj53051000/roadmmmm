@@ -60,13 +60,15 @@
 <body>
 	<%@ include file="common/header.jsp" %>
 	<div class="ssl_wrap">
-		<h1><a href="/ssbestlist">베스트리스트</a></h1>
+		<h1>주식 공부</h1>
 		<div class="ssl_main">
+		
 			<div>
 				<%@ include file="common/navList.jsp" %>
 			</div>
 			<div class="ssl_list">
 				
+				<a href="/ssbestlist"><button type="button" class="btn btn-primary btn-lg">베스트글 목록</button></a><br/>
 				<div class="ssl_bar">
 					<nav class="nav nav-pills nav-fill">
 					  <a class="nav-link" aria-current="page" href="/sslist?sector=ALL">전체</a>
@@ -74,7 +76,6 @@
 					  <a class="nav-link " href="/sslist?sector=TERM">용어</a>
 					  <a class="nav-link" href="/sslist?sector=CHART">차트</a>
 					  <a class="nav-link" href="/sslist?sector=INCIDENT">사건</a>
-					  
 					</nav>
 				</div>
 				

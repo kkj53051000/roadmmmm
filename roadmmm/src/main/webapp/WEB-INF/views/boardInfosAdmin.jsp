@@ -19,7 +19,6 @@
 			      <th scope="col">No</th>
 			      <th scope="col">게시판 이름 (Server Table name)</th>
 			      <th scope="col">베스트글 기준</th>
-			      <th scope="col">인기글 기준</th>
 			      <th scope="col">게시판 정보</th>
 			    </tr>
 			  </thead>
@@ -28,7 +27,6 @@
 			      <th scope="row">${b.id}</th>
 			      <td>${b.board}</td>
 			      <td>${b.bestStandard}</td>
-			      <td>${b.popularStandard}</td>
 			      <td>${b.info}</td>
 			    </tr>
 			  </tbody>

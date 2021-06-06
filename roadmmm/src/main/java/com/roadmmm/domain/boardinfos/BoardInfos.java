@@ -24,13 +24,11 @@ public class BoardInfos {
 	private long id;
 	
 	private int bestStandard;
-	private int popularStandard;
 	private String board;
 	private String info;
 	
-	public BoardInfos(int bestStandard, int popularStandard, String board, String info) {
+	public BoardInfos(int bestStandard, String board, String info) {
 		this.bestStandard = bestStandard;
-		this.popularStandard = popularStandard;
 		this.board = board;
 		this.info = info;
 	}

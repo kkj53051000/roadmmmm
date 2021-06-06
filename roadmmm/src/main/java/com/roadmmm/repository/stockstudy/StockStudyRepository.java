@@ -48,11 +48,10 @@ public class StockStudyRepository {
 		
 	}
 	
-	public List<StockStudy> selectStockStduyBests(int start, int standard){
+	public List<StockStudy> selectStockStduyBests(int start){
 		
-		TypedQuery<StockStudy> query = em.createQuery("select s From StockStudy s join fetch s.user WHERE s.upCount >= :standard ORDER BY s.id desc", StockStudy.class);
+		TypedQuery<StockStudy> query = em.createQuery("select s From StockStudy s join fetch s.user WHERE s.bestCheck = true ORDER BY s.id desc", StockStudy.class);
 		
-		query.setParameter("standard", standard);
 		query.setFirstResult(start);
 		query.setMaxResults(10);
 		

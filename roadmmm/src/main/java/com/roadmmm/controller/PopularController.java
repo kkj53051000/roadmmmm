@@ -29,6 +29,7 @@ public class PopularController {
 		String sector = request.getParameter("sector");
 		String dayStartStr = request.getParameter("day") + " 00:00:00";
 		String dayEndStr = request.getParameter("day") + " 23:59:59";
+		String day = request.getParameter("day");
 		
 		List<PopularLive> popularLives = popularService.getPopularLives();
 		
@@ -43,9 +44,9 @@ public class PopularController {
 				SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 				SimpleDateFormat fm_start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				
-				//Date dayDate = fm.parse(day);
-				Date dayStart = fm_start.parse(dayStartStr);
-				Date dayEnd = fm_start.parse(dayEndStr);
+				Date dayDate = fm.parse(dayStartStr); //yyyy-MM-dd
+				Date dayStart = fm_start.parse(dayStartStr); //yyyy-MM-dd 00:00:00
+				Date dayEnd = fm_start.parse(dayEndStr); //yyyy-MM-dd 23:59:59
 				
 				System.out.println("dayStart : " + dayStart);
 				System.out.println("dayEnd : " + dayEnd);

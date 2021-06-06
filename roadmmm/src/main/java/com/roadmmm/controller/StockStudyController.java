@@ -95,11 +95,7 @@ public class StockStudyController {
 		
 		String page = request.getParameter("page");
 		
-		int bestStandard = boardInfosService.getBoardInfosBestStandard("StockStudy");
-		
-		int start = 0;
-		
-		StockStudyListVo vo = stockStudyService.getStockStudyBestList(page, start, bestStandard);
+		StockStudyListVo vo = stockStudyService.getStockStudyBestList(page);
 		
 		model.addAttribute("vo", vo);
 		
@@ -212,18 +208,20 @@ public class StockStudyController {
 		
 		StockStudy stockStudy = stockStudyService.getStockStudy(ssId);
 		
+		//업카운트 - 다운카운드
+		int bestCount = stockStudy.getUpCount() - stockStudy.getDownCount();
+		
+		System.out.println("bestCount : " + bestCount);
+		
 		//베스트글 True
 		int bestStandard = boardInfosService.getBoardInfosBestStandard("StockStudy");
 		
-		if(stockStudy.getUpCount() >= bestStandard) {
+		//베스트글 추가 + 인기글 추가
+		if(bestCount >= bestStandard) {
 			stockStudyService.setStockStudyBestCheck(ssId);
-		}
-		
-		//인기글 추가
-		int popularStandard = boardInfosService.getBoardInfosPopularStandard("StockStudy");
-		
-		if(stockStudy.getUpCount() >= popularStandard) {
-			PopularLive popularLive = new PopularLive("StockStudy", ssId, user);
+			
+			Date now = new Date();
+			PopularLive popularLive = new PopularLive("StockStudy", ssId, now, user);
 			popularService.savePopularLive(popularLive);
 		}
 		

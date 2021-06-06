@@ -181,7 +181,7 @@ public class StockStudyService {
 		return vo;
 	}
 	
-	public StockStudyListVo getStockStudyBestList(String page, int start, int standard) {
+	public StockStudyListVo getStockStudyBestList(String page) {
 		
 		
 		int currentPage = 0;
@@ -199,7 +199,7 @@ public class StockStudyService {
 			startPage = ((currentPage - 1) * 10);
 		}
 		
-		List<StockStudy> stockStudys = stockStudyRepository.selectStockStduyBests(startPage, standard);
+		List<StockStudy> stockStudys = stockStudyRepository.selectStockStduyBests(startPage);
 		
 		int count = stockStudyRepository.selectStockStudyBestCount();
 		

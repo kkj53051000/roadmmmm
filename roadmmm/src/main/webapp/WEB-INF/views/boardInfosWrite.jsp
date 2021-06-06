@@ -14,7 +14,6 @@
 			Board Table Name (개발자에게 문의) : <input name = "board"/><br/>
 			설명 : <input name = "info"/><br/>
 			베스트글 개수 : <input name = "bestStandard"/><br/>
-			인기글 개수 : <input name = "popularStandard"/><br/>
 			<button type = "submit">입력</button>
 		</form>
 	</div>
