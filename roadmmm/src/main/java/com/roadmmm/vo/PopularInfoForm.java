@@ -15,13 +15,14 @@ public class PopularInfoForm {
 	private String boardName;
 	private String title;
 	private Date date;
-	private String nickname;
+	//private String nickname;
+	private User user;
 	
-	public PopularInfoForm(long boardId, String boardName, String title, Date date, String nickname) {
+	public PopularInfoForm(long boardId, String boardName, String title, Date date, User user) {
 		this.boardId = boardId;
 		this.boardName = boardName;
 		this.title = title;
 		this.date = date;
-		this.nickname = nickname;
+		this.user = user;
 	}
 }

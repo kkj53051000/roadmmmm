@@ -51,7 +51,9 @@ public class PopularController {
 				System.out.println("dayStart : " + dayStart);
 				System.out.println("dayEnd : " + dayEnd);
 	
-				//List<PopularLive> popularDays = popularService.getPopularDays(dayStartStr, dayEndStr);
+				List<PopularLive> popularDays = popularService.getPopularDays(dayStart, dayEnd);
+				
+				
 				
 				
 			} catch (ParseException e) {
@@ -60,6 +62,9 @@ public class PopularController {
 			}
 		}
 		
+		for(int i = 0; i < popularInfoForms.size(); i++) {
+			System.out.println("user nickname : " + popularInfoForms.get(i).getUser().getNickname());
+		}
 		model.addAttribute("vo", popularInfoForms);
 		
 		return "popularList";

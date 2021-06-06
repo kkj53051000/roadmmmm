@@ -5,7 +5,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Header</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 	<style>
 		.headerWrap{
@@ -47,9 +46,10 @@
 				<a href="/"><button type="button" class="btn btn-outline-secondary">메인</button></a>&nbsp;
 				<a href="/login"><button type="button" class="btn btn-outline-dark">로그인</button></a>&nbsp;
 				<a href="/join"><button type="button" class="btn btn-outline-dark">회원가입</button></a>&nbsp;
+				
 			</c:if>
 			<c:if test="${user != null}">
-				<a href="/">main</a>&nbsp;&nbsp;<a href="/logout">logout</a>
+				<a href="/">main</a>&nbsp;&nbsp;<a href="/logout">logout</a>&nbsp;&nbsp;<a href="/biadmin">게시판 관리자 페이지</a>
 			</c:if>
 		</div>
 	</div>

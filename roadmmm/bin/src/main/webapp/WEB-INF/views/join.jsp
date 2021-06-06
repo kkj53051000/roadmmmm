@@ -43,7 +43,7 @@
 				  <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
 				  <label for="floatingInput">이메일</label>
 				</div><br/>
-				<button type="button" class="btn btn-dark">회원가입</button>
+				<button type="submit" class="btn btn-dark">회원가입</button>
 			</form>
 		</div>
 	</div>

@@ -84,7 +84,7 @@
 					   <tr>
 					      <th scope="row">${p.boardId}</th>
 					      <td><a href="/sscontent?id=">${p.title}</a></td>
-					      <td>${p.nickname}</td>
+					      <td>${p.user.nickname}</td>
 					      <td>${p.date}</td>
 					    </tr>
 				  </c:forEach>

@@ -39,7 +39,7 @@ public class PopularService {
 				
 				StockStudy stockSutdy = popularRepository.selectPopularLiveListInfo(popularLives.get(i));
 				
-				PopularInfoForm popularInfoForm = new PopularInfoForm(popularLives.get(i).getBoardId(), popularLives.get(i).getBoardName(), stockSutdy.getTitle(), stockSutdy.getDate(), stockSutdy.getUser().getNickname());
+				PopularInfoForm popularInfoForm = new PopularInfoForm(popularLives.get(i).getBoardId(), popularLives.get(i).getBoardName(), stockSutdy.getTitle(), stockSutdy.getDate(), stockSutdy.getUser());
 				
 				popularInfoForms.add(popularInfoForm);
 			}
@@ -48,7 +48,7 @@ public class PopularService {
 		return popularInfoForms;
 	}
 	
-	public List<PopularLive> getPopularDays(String dayStart, String dayEnd){
+	public List<PopularLive> getPopularDays(Date dayStart, Date dayEnd){
 		List<PopularLive> popularDays = popularRepository.selectPopularDays(dayStart, dayEnd);
 		
 		return popularDays;
