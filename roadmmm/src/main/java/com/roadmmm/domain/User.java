@@ -1,10 +1,14 @@
 package com.roadmmm.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
 
 import lombok.Getter;
@@ -27,11 +31,31 @@ public class User {
 	private String userpw;
 	private String nickname;
 	private String email;
+	private Date date;
 	
-	public User(String userid, String userpw, String nickname, String email) {
+	@OneToOne
+	@JoinColumn(name = "usersubnickname_id")
+	private UserSubNickname subNickname;
+	
+	private Role role;
+	
+	
+	public User(String userid, String userpw, String nickname, String email, Date date, Role role) {
 		this.userid = userid;
 		this.userpw = userpw;
 		this.nickname = nickname;
 		this.email = email;
+		this.date = date;
+		this.role = role;
+	}
+	
+	public User(String userid, String userpw, String nickname, String email, Date date, UserSubNickname subNickname, Role role) {
+		this.userid = userid;
+		this.userpw = userpw;
+		this.nickname = nickname;
+		this.email = email;
+		this.date = date;
+		this.subNickname = subNickname;
+		this.role = role;
 	}
 }

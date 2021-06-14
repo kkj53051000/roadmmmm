@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.roadmmm.domain.User;
+import com.roadmmm.domain.UserSubNickname;
 import com.roadmmm.service.UserService;
 import com.roadmmm.vo.JoinForm;
 import com.roadmmm.vo.LoginForm;
@@ -49,6 +50,16 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logoutPage() {
 		return "logout";
+	}
+	
+	@GetMapping("/mypage")
+	public String myPage() {
+		return "myPage";
+	}
+	
+	@GetMapping("/adminpage")
+	public String adminPage() {
+		return "adminPage";
 	}
 	
 	//회원가입.
@@ -97,11 +108,35 @@ public class UserController {
 		
 		HttpSession session = request.getSession();
 		
-		UserSessionForm userSession = new UserSessionForm(user.getId(), user.getUserid(), user.getNickname(), user.getEmail());
+		UserSessionForm userSession;
+		
+		if(user.getSubNickname() == null) {
+			userSession = new UserSessionForm(user.getId(), user.getUserid(), user.getNickname(), null, user.getEmail(), user.getDate(), user.getRole());
+		}else {
+			userSession = new UserSessionForm(user.getId(), user.getUserid(), user.getNickname(), user.getSubNickname(), user.getEmail(), user.getDate(), user.getRole());
+		}
 		
 		session.setAttribute("user", userSession);
 		
 		return "redirect:/";
+		
+	}
+	
+	@PostMapping("/setsubnickname")
+	public String setSubNiname(HttpServletRequest request, HttpSession session) {
+		String subNickname = request.getParameter("subNickname");
+		
+		UserSubNickname userSubNickname = userService.getUserSubNickname(subNickname);
+		
+		UserSessionForm usersession = (UserSessionForm)session.getAttribute("user");
+		
+		userService.setUserSubNickname(usersession.getUser_id(), userSubNickname);
+		
+		UserSessionForm userSession = new UserSessionForm(usersession.getUser_id(), usersession.getUserid(), usersession.getNickname(), userSubNickname, usersession.getEmail(), usersession.getDate(), usersession.getRole());
+		
+		session.setAttribute("user", userSession);
+		
+		return "redirect:/mypage";
 		
 	}
 	

@@ -49,7 +49,7 @@
 <body>
 	<%@ include file="common/header.jsp" %>
 	<div class="ppl_wrap">
-		<h1>인기게시글</h1>
+		<h1>인기게시글(라이브)</h1>
 		<div class="ppl_main">
 			<div>
 				<%@ include file="common/navList.jsp" %>
@@ -58,10 +58,9 @@
 				
 				<div class="ppl_bar">
 					<nav class="nav nav-pills nav-fill">
-					  <a class="nav-link" aria-current="page" href="/pplist?sector=LIVE">실시간</a>
-					  <a class="nav-link " href="/">일간</a>
-					  <a class="nav-link " href="/">주간</a>
-					  <a class="nav-link" href="/">월간</a>
+					  <a class="nav-link" aria-current="page" href="/ppllist?sector=LIVE">실시간</a>
+					  <a class="nav-link " href="/ppdlist">일간</a>
+					  <a class="nav-link" href="/ppmlist">월간</a>
 					</nav>
 				</div>
 				
@@ -79,8 +78,7 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				  <c:forEach var="p"
-				   items="${vo}">
+				  <c:forEach var="p" items="${vo.popularInfoForms}">
 					   <tr>
 					      <th scope="row">${p.boardId}</th>
 					      <td><a href="/sscontent?id=">${p.title}</a></td>
@@ -92,7 +90,16 @@
 				</table>
 				
 				<div class="ppl_paging">
+					<c:if test="${vo.beforePage}">
+						<a href="ppllist?page=${vo.beforePageNum}"><span>이전</span></a>
+					</c:if>
 					
+					<c:forEach var="p" items="${vo.pageList}">
+						<a href="ppllist?page=${p}"><span>${p} </span></a>
+					</c:forEach>
+					<c:if test="${vo.afterPage}">
+						<a href="ppllist?page=${vo.afterPageNum}"><span>다음</span></a>
+					</c:if>
 				</div>
 				
 			</div>

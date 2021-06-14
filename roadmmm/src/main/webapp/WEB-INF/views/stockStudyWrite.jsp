@@ -1,4 +1,4 @@
-%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -77,12 +77,13 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	
-	<!-- include summernote css/js -->
+	<!-- include summernote css/js 
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	-->
 	
-	
-	
+	<link href="static/summernote/summernote-lite.css" rel="stylesheet">
+	<script src="static/summernote/summernote-lite.js"></script>
   	
   	<script src="static/summernote/summernote-ko-KR.js"></script>
 	
@@ -90,6 +91,7 @@
 <body>
 	<%@ include file="common/header.jsp" %>
 	<div class="ssw_wrap">
+		
 		<div class="ssw_main">
 			<div>
 				<%@ include file="common/navList.jsp" %>
@@ -116,15 +118,16 @@
 					
 					<div class="mb-3">
 					  <label for="exampleFormControlTextarea1" class="form-label"></label>
-					  <textarea name = "content" class="form-control" id="exampleFormControlTextarea1" placeholder="내용" rows="20"></textarea>
+					  <!-- <textarea name = "content" class="form-control" id="exampleFormControlTextarea1" placeholder="내용" rows="20"></textarea>  -->
+					  <textarea id="summernote" name="content"></textarea>
 					  <button type="submit" class="btn btn-dark write_btn">작성</button>
 					</div>
 				</form>
-				
-				<form method="post">
+				<!-- 
+				<form  method="post">
 				  <textarea id="summernote" name="editordata"></textarea>
 				</form>
-				
+				 -->
 				
 				  <script>
      				$('#summernote').summernote({
@@ -160,13 +163,19 @@
      					$.ajax({
      						data : data,
      						type : "POST",
-     						url : "uploadSummernoteImageFile",
+     						url : "/boardimagesupload",
      						contentType : false,
      						enctype : 'multipart/form-data',
      						processData : false,
+     						
      						success : function(data) {
-     							$(el).summernote('editor.insertImage', data.url);
-     						}
+     							console.log(data.url);
+     							console.log(data.responseCode);
+     							
+     							setTimeout(function() {
+     								$(el).summernote('editor.insertImage', data.url);
+     							}, 4000);
+     						}     						
      					});
      				}
 			    </script>

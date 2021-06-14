@@ -36,7 +36,7 @@ public class StockStudy {
 	
 	@NotNull
 	private String title;
-	@NotNull
+	@Column(length=10000)
 	private String content;
 	@NotNull
 	private Date date;

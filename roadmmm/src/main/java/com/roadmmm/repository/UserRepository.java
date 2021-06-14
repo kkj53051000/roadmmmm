@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import com.roadmmm.domain.User;
+import com.roadmmm.domain.UserSubNickname;
 
 @Repository
 public class UserRepository {
@@ -19,8 +20,8 @@ public class UserRepository {
 		em.persist(user);
 	}
 	
-	public User selectUser_id(long user_id) {
-		User user = em.find(User.class, user_id);
+	public User selectUser_id(long userId) {
+		User user = em.find(User.class, userId);
 		
 		return user;
 	}
@@ -37,5 +38,12 @@ public class UserRepository {
 		}
 		
 		return user.get(0);
+	}
+	
+	public void insertUserSubNickname(long userId, UserSubNickname subNickname) {
+		
+		User user = em.find(User.class, userId);
+		
+		user.setSubNickname(subNickname);
 	}
 }

@@ -49,7 +49,11 @@
 				
 			</c:if>
 			<c:if test="${user != null}">
-				<a href="/">main</a>&nbsp;&nbsp;<a href="/logout">logout</a>&nbsp;&nbsp;<a href="/biadmin">게시판 관리자 페이지</a>
+				<strong>${user.subNickname.subNickname}</strong>${user.nickname}님&nbsp;&nbsp;
+				<a href="/">main</a>&nbsp;&nbsp;
+				<a href="/logout">logout</a>&nbsp;&nbsp;
+				<a href="/adminpage">관리자 페이지</a>&nbsp;&nbsp;
+				<a href="/mypage">마이페이지</a>
 			</c:if>
 		</div>
 	</div>

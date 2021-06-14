@@ -73,7 +73,7 @@ public class StockStudyController {
 		String page = request.getParameter("page");
 		
 		//ALL과 나머지 ENUM들을 분류
-		if(sector.equals("ALL")) {
+		if(sector == null || sector.equals("ALL")) {
 			StockStudyListVo vo = stockStudyService.getStockStudyList(page, sector);
 			
 			model.addAttribute("vo", vo);
@@ -93,9 +93,18 @@ public class StockStudyController {
 	@GetMapping("/ssbestlist")
 	public String StockStudyBestList(HttpServletRequest request, HttpSession session, Model model) {
 		
+		String sector = request.getParameter("sector");
 		String page = request.getParameter("page");
 		
-		StockStudyListVo vo = stockStudyService.getStockStudyBestList(page);
+		StockStudyListVo vo = new StockStudyListVo();
+		
+		if(sector == null || sector.equals("ALL")) {
+			vo = stockStudyService.getStockStudyBestList(page);
+		}else { //나머지 섹터 처리
+			
+			vo = stockStudyService.getStockStudyBestListTag(page, sector);
+			
+		}
 		
 		model.addAttribute("vo", vo);
 		
@@ -112,12 +121,10 @@ public class StockStudyController {
 		if(userSession == null) {
 			return "redirect:/";
 		}
-		for(int i = 0; i <= 101; i++) {
+		for(int i=0; i<102; i++) {
 			User user = userService.getUser(userSession.getUser_id());
 			
 			Date now = new Date();
-			
-			System.out.println("now : " + now);
 			
 			StockStudy stockStudy = new StockStudy(stockStudyForm.getTitle(), stockStudyForm.getContent(), now, StockStudyTag.valueOf(stockStudyForm.getTag()), 0, 0, false, user);
 			

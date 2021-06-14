@@ -1,5 +1,6 @@
 package com.roadmmm.repository.stockstudy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import com.roadmmm.domain.PopularLive;
 import com.roadmmm.domain.stockstudy.StockStudy;
 import com.roadmmm.domain.stockstudy.StockStudyTag;
 
@@ -61,6 +63,17 @@ public class StockStudyRepository {
 		
 	}
 	
+	public List<StockStudy> selectStockStudyBestsAn(int start, StockStudyTag tag){
+		TypedQuery<StockStudy> query = em.createQuery("select s FROM StockStudy s join fetch s.user WHERE s.bestCheck = true AND s.tag = :tag ORDER BY s.id desc", StockStudy.class);
+	
+		query.setParameter("tag", tag);
+		//페이징 처리
+		
+		List<StockStudy> stockStudys = query.getResultList();
+		
+		return stockStudys;
+	}
+	
 	public int selectStockStudyCount() {
 		
 		Query countQuery = em.createQuery("select count(s) From StockStudy s");
@@ -71,21 +84,6 @@ public class StockStudyRepository {
 		
 		return countInt;
 	}
-	
-	/*
-	public int selectStockStudyBestCount(int standard) {
-		
-		Query countQuery = em.createQuery("select count(s) From StockStudy s WHERE s.upCount > :standard");
-		
-		countQuery.setParameter("standard", standard);
-		
-		long count = (Long)countQuery.getSingleResult();
-		
-		int countInt = (int)count;
-		
-		return countInt;
-	}
-	*/
 	
 	public int selectStockStudyBestCount() {
 		
@@ -144,5 +142,20 @@ public class StockStudyRepository {
 		StockStudy stockStudy = em.find(StockStudy.class, ssId);
 		
 		stockStudy.setBestCheck(true);
+	}
+	
+	public StockStudy selectPopularListStockStudy(PopularLive popularLive) {
+		
+		Long pId = popularLive.getBoardId();
+		
+		List<StockStudy> stockStudys = new ArrayList<StockStudy>();
+		
+		stockStudys = em.createQuery("select s from StockStudy s WHERE s.id = :pid", StockStudy.class)
+				.setParameter("pid", pId)
+				.getResultList();
+			
+
+		return stockStudys.get(0);
+		
 	}
 }

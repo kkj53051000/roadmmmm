@@ -1,12 +1,13 @@
 package com.roadmmm.repository;
 
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,42 +23,71 @@ public class PopularRepository {
 		em.persist(popularLive);
 	}
 	
-	public List<PopularLive> selectPopularLives(){
+	public int selectPopularLiveCount() {
+		Query countQuery = em.createQuery("select count(p) From PopularLive p");
 		
-		List<PopularLive> popularLives = em.createQuery("select p from PopularLive p", PopularLive.class)
-				.getResultList();
+		long count = (Long)countQuery.getSingleResult();
+		
+		int countInt = (int)count;
+		
+		return countInt;
+	}
+	
+	public List<PopularLive> selectPopularLives(int start){
+		
+		TypedQuery<PopularLive> query = em.createQuery("select p From PopularLive p", PopularLive.class);
+		
+		query.setFirstResult(start);
+		query.setMaxResults(10);
+		
+		List<PopularLive> popularLives = query.getResultList();
 		
 		return popularLives;
 	}
 	
-	public StockStudy selectPopularLiveListInfo(PopularLive popularLive) {
+	public int selectPopularDayCount(Date dayStart, Date dayEnd) {
+		Query countQuery = em.createQuery("select count(p) From PopularLive p WHERE p.date BETWEEN :dayStart AND :dayEnd");
 		
-		Long pId = popularLive.getBoardId();
+		countQuery.setParameter("dayStart", dayStart);
+		countQuery.setParameter("dayEnd", dayEnd);
 		
-		System.out.println("pId : " + pId);
 		
-		List<StockStudy> stockStudys = new ArrayList<StockStudy>();
+		long count = (Long)countQuery.getSingleResult();
 		
-		stockStudys = em.createQuery("select s from StockStudy s WHERE s.id = :pid", StockStudy.class)
-				.setParameter("pid", pId)
-				.getResultList();
-			
-
-		return stockStudys.get(0);
+		int countInt = (int)count;
 		
+		return countInt;
 	}
 	
-	public List<PopularLive> selectPopularDays(Date dayStart, Date dayEnd) {
+	public List<PopularLive> selectPopularDays(Date dayStart, Date dayEnd, int start) {
 		//jsql문법 확인 필
-		List<PopularLive> popularDays = em.createQuery("select p from PopularLive p WHERE p.date BETWEEN :dayStart AND :dayend", PopularLive.class)
-				.setParameter("dayStart", dayStart)
-				.setParameter("dayend", dayEnd)
-				.getResultList();
+//		List<PopularLive> popularDays = em.createQuery("select p from PopularLive p WHERE p.date BETWEEN :dayStart AND :dayend", PopularLive.class)
+//				.setParameter("dayStart", dayStart)
+//				.setParameter("dayend", dayEnd)
+//				.getResultList();
 		
-		System.out.println("popularDays.size : " + popularDays.size());
+		TypedQuery<PopularLive> query = em.createQuery("select p from PopularLive p WHERE p.date BETWEEN :dayStart AND :dayEnd", PopularLive.class);
+		
+		query.setParameter("dayStart", dayStart);
+		query.setParameter("dayEnd", dayEnd);
+		query.setFirstResult(start);
+		query.setMaxResults(10);
+		
+		List<PopularLive> popularDays = query.getResultList();
 		
 		return popularDays;
 		
+	}
+	
+	public List<PopularLive> selectPopularMonths(Date monthStart, Date monthEnd){
+		List<PopularLive> popularMonths = em.createQuery("select p from PopularLive p WHERE p.date BETWEEN :monthStart AND :monthEnd", PopularLive.class)
+				.setParameter("monthStart", monthStart)
+				.setParameter("monthEnd", monthEnd)
+				.getResultList();
+		
+		System.out.println("list size : " + popularMonths.size());
+		
+		return  popularMonths;
 	}
 	
 }

@@ -28,12 +28,6 @@ public class PopularLive {
 	@Column(name = "popularlive_id")
 	private long id;
 	
-	/*
-	@ManyToOne
-	@JoinColumn(name = "boardinfos_id")
-	BoardInfos boardInfos;
-	*/
-	
 	private String boardName;
 	
 	private long boardId;
